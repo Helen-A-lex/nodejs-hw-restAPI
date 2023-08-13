@@ -1,6 +1,6 @@
 const contacts = require("../models/contacts");
-// const { HttpError } = require("../helpers");
-// const dataValidate = require("../helpers/dataValidator");
+const { HttpError } = require("../helpers");
+const dataValidate = require("../helpers/dataValidator");
 const { ctrlWrapper } = require("../helpers");
 
 const getAll = async (req, res) => {
@@ -18,11 +18,11 @@ const getById = async (req, res) => {
 };
 
 const addOneContact = async (req, res) => {
-  // const validateFile = dataValidate(req.body);
-  // if (validateFile.error) {
-  //   const missingField = validateFile.error.details[0].path[0];
-  //   throw HttpError(400, `missing required ${missingField} field`);
-  // }
+  const validateFile = dataValidate(req.body);
+  if (validateFile.error) {
+    const missingField = validateFile.error.details[0].path[0];
+    throw HttpError(400, `missing required ${missingField} field`);
+  }
   const result = await contacts.addContact(req.body);
   res.status(201).json(result);
 };
@@ -37,15 +37,15 @@ const deleteContact = async (req, res) => {
 };
 
 const updateById = async (req, res) => {
-  // const validateFile = dataValidate(req.body);
-  // if (validateFile.error) {
-  //   if (Object.keys(req.body).length === 0) {
-  //     throw HttpError(400, `missing fields`);
-  //   } else {
-  //     const missingField = validateFile.error.details[0].path[0];
-  //     throw HttpError(400, `missing required ${missingField} field`);
-  //   }
-  // }
+  const validateFile = dataValidate(req.body);
+  if (validateFile.error) {
+    if (Object.keys(req.body).length === 0) {
+      throw HttpError(400, `missing fields`);
+    } else {
+      const missingField = validateFile.error.details[0].path[0];
+      throw HttpError(400, `missing required ${missingField} field`);
+    }
+  }
   const { contactId } = req.params;
   const result = await contacts.updateContact(contactId, req.body);
   if (!result) {
