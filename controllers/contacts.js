@@ -36,8 +36,7 @@ const updateById = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Not found");
   }
-  const { contactId: id, ...rest } = result;
-  res.json({ id, ...rest });
+  res.json(result);
 };
 
 module.exports = {
