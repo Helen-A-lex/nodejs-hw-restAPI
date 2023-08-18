@@ -5,11 +5,10 @@ const validateBodyFavorite = (schema) => {
     const validateFile = schema.validate(req.body);
 
     if (validateFile.error) {
-      if (Object.keys(req.body).length === 0) {
-        const missingField = validateFile.error.details[0].path[0];
-        next(HttpError(400, `missing required ${missingField} field`));
-      }
+      const errorMessage = validateFile.error.details[0].message;
+      return next(HttpError(400, errorMessage));
     }
+
     next();
   };
   return func;

@@ -30,11 +30,16 @@ const addSchema = Joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required(),
   phone: Joi.string().required(),
-  favorite: Joi.boolean(),
+  favorite: Joi.boolean().messages({
+    "boolean.base": "Favorite field must be a boolean value",
+  }),
 });
 
 const updateFavoriteSchema = Joi.object({
-  favorite: Joi.boolean().required(),
+  favorite: Joi.boolean().required().messages({
+    "any.required": "Favorite field is required",
+    "boolean.base": "Favorite field must be a boolean value",
+  }),
 });
 
 const schemas = {
