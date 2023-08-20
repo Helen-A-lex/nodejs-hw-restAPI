@@ -25,11 +25,21 @@ const contactSchema = new Schema(
 );
 
 const addSchema = Joi.object({
-  name: Joi.string().min(3).max(30).required(),
+  name: Joi.string().min(3).max(30).required().messages({
+    "any.required": "Name field is required",
+    "string.base": "Name field must be a string",
+  }),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required(),
-  phone: Joi.string().required(),
+    .required()
+    .messages({
+      "any.required": "Email field is required",
+      "string.base": "Email field must be a string",
+    }),
+  phone: Joi.string().required().messages({
+    "any.required": "Phone field is required",
+    "string.base": "Phone field must be a string",
+  }),
   favorite: Joi.boolean().messages({
     "boolean.base": "Favorite field must be a boolean value",
   }),
