@@ -58,10 +58,20 @@ const loginSchema = Joi.object({
     "string.base": "Password field must be a string",
   }),
 });
-
+const validSubscriptionValues = ["starter", "pro", "business"];
+const updateUserSubscriptionSchema = Joi.object({
+  subscription: Joi.string()
+    .valid(...validSubscriptionValues)
+    .messages({
+      "any.required": "Subscription field is required",
+      "string.base": "Subscription field must be a string",
+    })
+    .required(),
+});
 const schemas = {
   registerSchema,
   loginSchema,
+  updateUserSubscriptionSchema,
 };
 
 const User = model("user", userSchema);
